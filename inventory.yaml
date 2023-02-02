@@ -1,0 +1,5 @@
+virtualmachines:
+  hosts:
+    vm01:
+      http_port: 80
+      ansible_host: test@192.168.1.30

@@ -1,0 +1,20 @@
+- name: My first play
+  hosts: virtualmachines
+  become: true
+  tasks:
+   - name: Install Open JDK 17
+     ansible.builtin.apt:
+      name: openjdk-17-jre
+      state: latest
+      install_recommends: true
+      update_cache: true
+   - name: Get latest jar file
+     ansible.builtin.get_url:
+      url: "http://192.168.1.110:8080/job/Pipeline/lastSuccessfulBuild/artifact/target/Backend-1.0-jar-with-dependencies.jar"
+      dest: "~/Backend.jar"
+      owner: root
+   - name: Run every 3rd minute
+     ansible.builtin.cron:
+      name: "run data creation"
+      minute: "3,13,23,33,43,53"
+      job: "java -jar ~/Backend.jar \"/root/data.json\""
